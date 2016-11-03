@@ -13,8 +13,10 @@ class App extends Component {
 
     this.setState({
       intervalId,
+      time: 0,
       tut01Data: ['buy butter', 'checkout the new big bang theory episode', 'walk on the moon'],
-      tut02Data: []
+      tut02Data: [],
+      tut02Header: ['id', 'name', 'imageUrl']
     })
   }
 
@@ -23,6 +25,8 @@ class App extends Component {
   }
 
   tick () {
+    this.setState({ time: this.state.time + 0.2 })
+
     const x = _.random(0, 1, true)
 
     if (x < 0.06) {
@@ -42,11 +46,21 @@ class App extends Component {
         tut02Data: _.take(sourceData, this.state.tut02Data.length + 1)
       })
     }
+
+    if (this.state.time > 20.0) {
+      this.setState({
+        tut02Header: ['id', 'name']
+      })
+    } else if (this.state.time > 10.0) {
+      this.setState({
+        tut02Header: ['imageUrl', 'name']
+      })
+    }
   }
 
   render () {
     const tut01Data = _.get(this.state, 'tut01Data', [])
-    const tut02Header = _.keys(sourceData[0])
+    const tut02Header = _.get(this.state, 'tut02Header', [])
     const tut02Lines = _.get(this.state, 'tut02Data', [])
 
     return (
